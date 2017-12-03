@@ -34,6 +34,13 @@ public class RestAPIController {
     public String index() {
         return "Home Page is here";
     }
+
+    @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/cassandra/order/get")
+    public Object getData(@RequestParam(value="key", defaultValue="1") String cacheKey)
+    {
+         System.out.println("Key = " + cacheKey);
+         return("For testing");
+    }
 /*
     @RequestMapping("/sales")
    public String getSales()

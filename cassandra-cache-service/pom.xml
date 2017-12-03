@@ -4,7 +4,7 @@
   <groupId>com.batria</groupId>
   <artifactId>cassandra-cache-service</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>cassandra-cache-service</name>
   <url>http://maven.apache.org</url>
   <dependencies>

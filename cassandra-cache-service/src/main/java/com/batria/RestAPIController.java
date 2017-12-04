@@ -10,9 +10,11 @@ import java.util.*;
 import com.google.gson.JsonArray;
 //import net.sf.json.JSONException;
 
+import com.datastax.driver.core.Session;
 import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import com.google.gson.Gson;
+import com.batria.Connection;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -39,6 +41,10 @@ public class RestAPIController {
     public Object getData(@RequestParam(value="key", defaultValue="1") String cacheKey)
     {
          System.out.println("Key = " + cacheKey);
+
+	 Connection conn = new Connection();
+	 Session session = conn.getSession();
+
          return("For testing");
     }
 /*

@@ -44,9 +44,32 @@ public class RestAPIController {
 
 	 Connection conn = new Connection();
 	 Session session = conn.getSession();
+//         session.execute("INSERT INTO test.orders JSON "+ jsonString);
 
          return("For testing");
     }
+    
+    @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/cassandra/order/put")
+    public String putData(@RequestBody String inputData) 
+    {
+
+          System.out.println("Received String = " + inputData);
+//	  String cmd = "INSERT INTO test.orders JSON " + "'" + inputData + "'";
+          String cmd = "INSERT INTO test.orders JSON " + inputData;
+	  Connection conn = new Connection();
+	  Session session = conn.getSession();
+//	  try
+//	  {
+	  session.execute(cmd);
+//	  }
+//	  catch (Exception ex)
+//	  {
+//		  System.out.println("Exception");
+//	  }
+
+	  return (inputData);
+    }
+
 /*
     @RequestMapping("/sales")
    public String getSales()

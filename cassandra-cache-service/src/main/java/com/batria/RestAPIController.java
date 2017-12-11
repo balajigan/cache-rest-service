@@ -32,12 +32,21 @@ import org.json.JSONException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+//import org.springframework.web.bind.annotation.PostMapping;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 @RestController
 public class RestAPIController {
 
     //private static final Logger logger = LogManager.getLogger("appLogger");
+
+    private static String LOCAL_FOLDER = "/tmp/";
 
     @RequestMapping("/dashboard")
     public String index() {
@@ -88,4 +97,32 @@ public class RestAPIController {
 
 	  return (inputData);
     }
+
+//    @PostMapping("/upload")
+    @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/upload")
+    public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
+    {
+	if(file.isEmpty())
+	{
+		redirectAttributes.addFlashAttribute("message", "Upload a file");
+		return "redirect:uploadStatus";
+	}
+	try{
+		byte[] bytes = file.getBytes();
+		Path path = Paths.get(LOCAL_FOLDER + file.getOriginalFilename());
+		Files.write(path, bytes);
+		 redirectAttributes.addFlashAttribute("message","successfully uploaded..");
+	}
+	catch (IOException e)
+	{
+		e.printStackTrace();
+	}
+	return("SUCCESS");
+//	return "redirect:/uploadStatus";
+    }
+//    @GetMapping("/uploadStatus")
+//    public String uploadStatus()
+//    {
+//	return "uploadStatus";	
+//    }
 }

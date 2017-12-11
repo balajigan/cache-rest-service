@@ -17,3 +17,7 @@ Find the line: securerandom.source=file:/dev/random
 Change to: securerandom.source=file:/dev/urandom
 
 
+## to upload file
+
+curl -F 'file=@/home/user/test.txt' http://localhost:8080/upload
+

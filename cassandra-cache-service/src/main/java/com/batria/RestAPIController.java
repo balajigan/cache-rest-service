@@ -57,7 +57,7 @@ public class RestAPIController {
 
     //private static final Logger logger = LogManager.getLogger("appLogger");
 
-    private static String LOCAL_FOLDER = "/tmp/";
+    private static String LOCAL_FOLDER = "";
 
     @RequestMapping("/dashboard")
     public String index() {

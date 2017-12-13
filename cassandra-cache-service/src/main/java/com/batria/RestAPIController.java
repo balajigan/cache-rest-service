@@ -10,10 +10,13 @@ import java.util.*;
 import com.google.gson.JsonArray;
 //import net.sf.json.JSONException;
 
+import java.util.Map;
+import java.util.List;
+
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import org.codehaus.jackson.map.ObjectMapper;
+//import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import com.google.gson.Gson;
 import com.batria.Connection;
@@ -23,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.io.File;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
@@ -40,6 +44,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+
+//import com.fasterxml.jackson.annotation.jsoninclude.Include;
+//import com.fasterxml.jackson.core.Include;
 
 @RestController
 public class RestAPIController {
@@ -111,7 +122,29 @@ public class RestAPIController {
 		byte[] bytes = file.getBytes();
 		Path path = Paths.get(LOCAL_FOLDER + file.getOriginalFilename());
 		Files.write(path, bytes);
+
+		File input = new File(LOCAL_FOLDER + file.getOriginalFilename());
+		File output = new File(LOCAL_FOLDER + "output.json");
+		CsvSchema bootstrap = CsvSchema.emptySchema().withHeader();
+		CsvMapper csvMapper = new CsvMapper();
+		MappingIterator<Map<?, ?>> mappingIterator = null;
+		mappingIterator = csvMapper.reader(Map.class).with(bootstrap).readValues(input);
+
+		List<Map<?, ?>> data = mappingIterator.readAll();
+		ObjectMapper mapper = new ObjectMapper();
+		//mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.writeValue(output,data);
+		Connection conn = new Connection();
+		Session session = conn.getSession();
+                for(int index=0; index < data.size(); index++)
+		{
+			String jsonStr = mapper.writeValueAsString(data.get(index));
+			System.out.println("Value = " + jsonStr);
+			session.execute("INSERT INTO test.orders JSON " + "'"+ jsonStr + "'");	
+		}
+
 		 redirectAttributes.addFlashAttribute("message","successfully uploaded..");
+
 	}
 	catch (IOException e)
 	{

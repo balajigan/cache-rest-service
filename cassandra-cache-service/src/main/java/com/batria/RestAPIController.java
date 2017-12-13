@@ -122,7 +122,10 @@ public class RestAPIController {
 		byte[] bytes = file.getBytes();
 		Path path = Paths.get(LOCAL_FOLDER + file.getOriginalFilename());
 		Files.write(path, bytes);
-
+                String inputFileName = file.getOriginalFilename();
+		System.out.println("File Name = " + inputFileName);
+                String tableName = inputFileName.substring(0, inputFileName.lastIndexOf("_")).toLowerCase();
+		System.out.println("TableName = " + tableName);
 		File input = new File(LOCAL_FOLDER + file.getOriginalFilename());
 		File output = new File(LOCAL_FOLDER + "output.json");
 		CsvSchema bootstrap = CsvSchema.emptySchema().withHeader();
@@ -140,7 +143,7 @@ public class RestAPIController {
 		{
 			String jsonStr = mapper.writeValueAsString(data.get(index));
 			System.out.println("Value = " + jsonStr);
-			session.execute("INSERT INTO test.orders JSON " + "'"+ jsonStr + "'");	
+			session.execute("INSERT INTO test."+ tableName +" JSON " + "'"+ jsonStr + "'");	
 		}
 
 		 redirectAttributes.addFlashAttribute("message","successfully uploaded..");

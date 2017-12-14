@@ -69,7 +69,6 @@ public class RestAPIController {
     @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/cassandra/order/get")
     public Object getData(@RequestParam(value="orderId", defaultValue="1") String orderId)
     {
-//	 logger.info("getData is called");
          long startTimeMs = System.currentTimeMillis();	
 
 	 Connection conn = new Connection();
@@ -80,7 +79,7 @@ public class RestAPIController {
          String jsonString = row.getString(0);
 	 
 	 long endTimeMs = System.currentTimeMillis();
-	 System.out.println("getData exec time = "+ Long.toString(endTimeMs - startTimeMs));
+	 //System.out.println("getData exec time = "+ Long.toString(endTimeMs - startTimeMs));
          logger.info("GET exec time ms = " + Long.toString(endTimeMs - startTimeMs));
          return(jsonString);
     }
@@ -94,7 +93,7 @@ public class RestAPIController {
     {
           long startTimeMs = System.currentTimeMillis(); 
 
-          System.out.println("Received String = " + inputData);
+          //System.out.println("Received String = " + inputData);
 	  Connection conn = new Connection();
 	  Session session = conn.getSession();
 	  try
@@ -104,9 +103,10 @@ public class RestAPIController {
 	  catch (Exception ex)
 	  {
 		  System.out.println("Exception");
+		  logger.error("Exception in inserting data");
 	  }
          long endTimeMs = System.currentTimeMillis();
-	 System.out.println("putData exec time = "+ Long.toString(endTimeMs - startTimeMs));
+	 //System.out.println("putData exec time = "+ Long.toString(endTimeMs - startTimeMs));
          logger.info("POST exec time ms = " + Long.toString(endTimeMs - startTimeMs));
 	  return (inputData);
     }

@@ -57,7 +57,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @RestController
 public class RestAPIController {
 
-    //private static final Logger logger = LogManager.getLogger("appLogger");
+    private static final Logger logger = LogManager.getLogger(RestAPIController.class);
 
     private static String LOCAL_FOLDER = "";
 
@@ -81,7 +81,7 @@ public class RestAPIController {
 	 
 	 long endTimeMs = System.currentTimeMillis();
 	 System.out.println("getData exec time = "+ Long.toString(endTimeMs - startTimeMs));
-
+         logger.info("GET exec time ms = " + Long.toString(endTimeMs - startTimeMs));
          return(jsonString);
     }
 
@@ -107,7 +107,7 @@ public class RestAPIController {
 	  }
          long endTimeMs = System.currentTimeMillis();
 	 System.out.println("putData exec time = "+ Long.toString(endTimeMs - startTimeMs));
-
+         logger.info("POST exec time ms = " + Long.toString(endTimeMs - startTimeMs));
 	  return (inputData);
     }
 

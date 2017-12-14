@@ -48,10 +48,12 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 //import com.fasterxml.jackson.annotation.jsoninclude.Include;
 //import com.fasterxml.jackson.core.Include;
 
+//@JsonInclude(Include.NON_EMPTY)
 @RestController
 public class RestAPIController {
 
@@ -135,13 +137,14 @@ public class RestAPIController {
 
 		List<Map<?, ?>> data = mappingIterator.readAll();
 		ObjectMapper mapper = new ObjectMapper();
-		//mapper.setSerializationInclusion(Include.NON_NULL);
-		mapper.writeValue(output,data);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+	        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+		mapper.writerWithDefaultPrettyPrinter().writeValue(output,data);
 		Connection conn = new Connection();
 		Session session = conn.getSession();
                 for(int index=0; index < data.size(); index++)
 		{
-			String jsonStr = mapper.writeValueAsString(data.get(index));
+			String jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data.get(index));
 			System.out.println("Value = " + jsonStr);
 			session.execute("INSERT INTO test."+ tableName +" JSON " + "'"+ jsonStr + "'");	
 		}

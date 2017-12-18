@@ -60,7 +60,7 @@ public class RestAPIController {
     private static final Logger logger = LogManager.getLogger(RestAPIController.class);
 
     private static String LOCAL_FOLDER = "";
-
+    private static String serverIp = "127.0.0.1";
     @RequestMapping("/dashboard")
     public String index() {
         return "Home Page is here";
@@ -71,7 +71,7 @@ public class RestAPIController {
     {
          long startTimeMs = System.currentTimeMillis();	
 
-	 Connection conn = new Connection();
+	 Connection conn = new Connection(serverIp);
 	 Session session = conn.getSession();
          ResultSet resultSet = session.execute("SELECT JSON * FROM test.orders WHERE order_id="+ "'"+orderId+"'");
 
@@ -94,11 +94,12 @@ public class RestAPIController {
           long startTimeMs = System.currentTimeMillis(); 
 
           //System.out.println("Received String = " + inputData);
-	  Connection conn = new Connection();
+	  Connection conn = new Connection(serverIp);
 	  Session session = conn.getSession();
 	  try
 	  {
 	      session.execute("INSERT INTO test.orders JSON " + "'" + inputData + "'");
+	     // session.execute("INSERT INTO test.orders (orderId, orderDetails) VALUES (?,?)" + 
 	  }
 	  catch (Exception ex)
 	  {

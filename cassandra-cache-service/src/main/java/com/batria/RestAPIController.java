@@ -60,7 +60,7 @@ public class RestAPIController {
     private static final Logger logger = LogManager.getLogger(RestAPIController.class);
 
     private static String LOCAL_FOLDER = "";
-    private static String serverIp = "127.0.0.1";
+    private static String serverIp = "10.128.0.3";
     @RequestMapping("/dashboard")
     public String index() {
         return "Home Page is here";

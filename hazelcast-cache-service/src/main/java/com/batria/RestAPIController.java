@@ -25,6 +25,7 @@ import java.io.File;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
+//import org.json.JSONParser;
 import org.json.JSONException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -74,12 +75,15 @@ public class RestAPIController {
 	
 	IMap<String, String> mapOrders = client.getMap("ordersMap");
 	String orderData = mapOrders.get(orderId);
+	client.shutdown();
 	System.out.println("order from Hazelcast = " + orderData);
 
 	 long endTimeMs = System.currentTimeMillis();
 	 //System.out.println("getData exec time = "+ Long.toString(endTimeMs - startTimeMs));
          logger.info("GET exec time ms = " + Long.toString(endTimeMs - startTimeMs));
-         return(orderData);
+         
+	 
+	 return(orderData);
     }
 
 /*    
@@ -87,27 +91,36 @@ public class RestAPIController {
  *
  */    
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/hazelcast/order/put")
-    public String putData(@RequestBody String inputData) 
+    public String putData(@RequestBody JSONObject inputData) 
     {
-          long startTimeMs = System.currentTimeMillis(); 
+          long startTimeMs = System.currentTimeMillis();
+          //JSONObject jsonObj = new JSONObject(inputData); 
 
+	  String orderId = (String) inputData.get("orderId");
+  	  System.out.println("orderId = " + orderId);	  
           //System.out.println("Received String = " + inputData);
 	  Connection conn = new Connection(serverIp);
 	  HazelcastInstance client = conn.getClient();
 	  try
 	  {
 	      IMap<String, String> mapOrders = client.getMap("ordersMap");
-	      mapOrders.put("1000", inputData);
+	      System.out.println("Input data: " + inputData);
+	      //mapOrders.put("1000", inputData);
 	  }
 	  catch (Exception ex)
 	  {
 		  System.out.println("Exception");
+		  ex.printStackTrace();
 		  logger.error("Exception in inserting data");
+	  }
+	  finally
+	  {
+		client.shutdown();
 	  }
          long endTimeMs = System.currentTimeMillis();
 	 //System.out.println("putData exec time = "+ Long.toString(endTimeMs - startTimeMs));
          logger.info("POST exec time ms = " + Long.toString(endTimeMs - startTimeMs));
-	  return (inputData);
+	  return ("inputData");
     }
 
 /*    

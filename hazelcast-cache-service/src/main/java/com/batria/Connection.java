@@ -13,7 +13,7 @@ import com.hazelcast.core.IMap;
 public class Connection
 {
 	private static Logger logger = LogManager.getLogger("Connection");
-	public static HazelcastInstance client;
+	public HazelcastInstance client;
 	private String serverIp = "127.0.0.1:5701";
 	public Connection()
 	{
@@ -25,8 +25,8 @@ public class Connection
 	}
 	public HazelcastInstance getClient()
 	{
-		if(client == null)
-		{
+//		if(client == null)
+//		{
 			try{
 
 			ClientConfig clientConfig = new ClientConfig();
@@ -41,8 +41,8 @@ public class Connection
 			{
 				logger.error("Issues in opening connection with Hazelcast");
 			}
-		}
+//		}
 		return client;
 	}
-
+       
 }

@@ -60,26 +60,43 @@ public class RestAPIController {
 
     private static String LOCAL_FOLDER = "";
     private static String serverIp = "127.0.0.1:5701";
-    @RequestMapping("/dashboard")
-    public String index() {
-        return "Home Page is here";
-    }
+//    @RequestMapping("/dashboard")
+//    public String index() {
+//        return "Home Page is here";
+//    }
+
+
+ /* This method is called for getting the order details from the orderMap.
+  * The caller needs to call with 'orderId'
+  */
 
     @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/hazelcast/order/get")
     public Object getData(@RequestParam(value="orderId", defaultValue="1") String orderId)
     {
          long startTimeMs = System.currentTimeMillis();	
-
-	 Connection conn = new Connection(serverIp);
-	 HazelcastInstance client = conn.getClient();
+	 HazelcastInstance client = null;
+	 String orderData = null;
+	 try
+	 {
+	 	Connection conn = new Connection(serverIp);
+	 	client = conn.getClient();
 	
-	IMap<String, String> mapOrders = client.getMap("ordersMap");
-	String orderData = mapOrders.get(orderId);
-	client.shutdown();
-	System.out.println("order from Hazelcast = " + orderData);
+		IMap<String, String> mapOrders = client.getMap("ordersMap");
+		orderData = mapOrders.get(orderId);
+		//client.shutdown();
+		//System.out.println("order from Hazelcast = " + orderData);
 
+	 }
+	 catch(Exception ex)
+	 {
+		logger.error("Exception while reading from orderMap");
+		ex.printStackTrace();
+	 }
+	 finally
+	 {	// TODO - enable the connection pooling and don't shutdown the client.
+		client.shutdown();
+	 }
 	 long endTimeMs = System.currentTimeMillis();
-	 //System.out.println("getData exec time = "+ Long.toString(endTimeMs - startTimeMs));
          logger.info("GET exec time ms = " + Long.toString(endTimeMs - startTimeMs));
          
 	 
@@ -94,33 +111,33 @@ public class RestAPIController {
     public String putData(@RequestBody String inputData) 
     {
           long startTimeMs = System.currentTimeMillis();
-          //JSONObject jsonObj = new JSONObject(inputData); 
-          System.out.println("inputData = "+ inputData);
-	  //String orderId = (String) inputData.getString("orderId");
+	  String returnStatus = "SUCCESS";
+          JSONObject jsonObj = new JSONObject(inputData); 
+          //System.out.println("inputData = "+ inputData);
+	  String orderId = (String) jsonObj.get("orderId");
   	  //System.out.println("orderId = " + orderId);	  
-          //System.out.println("Received String = " + inputData);
 	  Connection conn = new Connection(serverIp);
 	  HazelcastInstance client = conn.getClient();
 	  try
 	  {
 	      IMap<String, String> mapOrders = client.getMap("ordersMap");
-	      System.out.println("Input data: " + inputData);
-	      mapOrders.put("1000", inputData);
+	      // PUT the data into the map
+	      mapOrders.put(orderId, inputData);
 	  }
 	  catch (Exception ex)
 	  {
-		  System.out.println("Exception");
+		  returnStatus = "FAILURE";
+		  //System.out.println("Exception");
 		  ex.printStackTrace();
 		  logger.error("Exception in inserting data");
 	  }
 	  finally
-	  {
+	  {	// Enable the connection pooling and don't shutdown the client here.
 		client.shutdown();
 	  }
          long endTimeMs = System.currentTimeMillis();
-	 //System.out.println("putData exec time = "+ Long.toString(endTimeMs - startTimeMs));
          logger.info("POST exec time ms = " + Long.toString(endTimeMs - startTimeMs));
-	  return ("inputData");
+	 return (returnStatus);
     }
 
 /*    

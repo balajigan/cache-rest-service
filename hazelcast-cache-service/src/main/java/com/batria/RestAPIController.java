@@ -94,7 +94,7 @@ public class RestAPIController {
 	 }
 	 finally
 	 {	// TODO - enable the connection pooling and don't shutdown the client.
-		client.shutdown();
+	//	client.shutdown();
 	 }
 	 long endTimeMs = System.currentTimeMillis();
          logger.info("GET exec time ms = " + Long.toString(endTimeMs - startTimeMs));
@@ -114,7 +114,7 @@ public class RestAPIController {
 	  String returnStatus = "SUCCESS";
           JSONObject jsonObj = new JSONObject(inputData); 
           //System.out.println("inputData = "+ inputData);
-	  String orderId = (String) jsonObj.get("orderId");
+	  String orderId = (String) jsonObj.get("order_id");
   	  //System.out.println("orderId = " + orderId);	  
 	  Connection conn = new Connection(serverIp);
 	  HazelcastInstance client = conn.getClient();
@@ -133,7 +133,7 @@ public class RestAPIController {
 	  }
 	  finally
 	  {	// Enable the connection pooling and don't shutdown the client here.
-		client.shutdown();
+	//	client.shutdown();
 	  }
          long endTimeMs = System.currentTimeMillis();
          logger.info("POST exec time ms = " + Long.toString(endTimeMs - startTimeMs));
@@ -192,7 +192,7 @@ public class RestAPIController {
 	}
 	finally
 	{
-		client.shutdown();
+	//	 client.shutdown();
 	}
 	return("SUCCESS");
     }

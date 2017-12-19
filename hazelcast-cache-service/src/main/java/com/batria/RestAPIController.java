@@ -91,13 +91,13 @@ public class RestAPIController {
  *
  */    
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/hazelcast/order/put")
-    public String putData(@RequestBody JSONObject inputData) 
+    public String putData(@RequestBody String inputData) 
     {
           long startTimeMs = System.currentTimeMillis();
           //JSONObject jsonObj = new JSONObject(inputData); 
-
-	  String orderId = (String) inputData.get("orderId");
-  	  System.out.println("orderId = " + orderId);	  
+          System.out.println("inputData = "+ inputData);
+	  //String orderId = (String) inputData.getString("orderId");
+  	  //System.out.println("orderId = " + orderId);	  
           //System.out.println("Received String = " + inputData);
 	  Connection conn = new Connection(serverIp);
 	  HazelcastInstance client = conn.getClient();
@@ -105,7 +105,7 @@ public class RestAPIController {
 	  {
 	      IMap<String, String> mapOrders = client.getMap("ordersMap");
 	      System.out.println("Input data: " + inputData);
-	      //mapOrders.put("1000", inputData);
+	      mapOrders.put("1000", inputData);
 	  }
 	  catch (Exception ex)
 	  {

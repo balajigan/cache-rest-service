@@ -140,11 +140,11 @@ public class RestAPIController {
 	 return (returnStatus);
     }
 
-/*    
-//    @PostMapping("/upload")
+    
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "hazelcast/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
     {
+	HazelcastInstance client = null;    
 	if(file.isEmpty())
 	{
 		redirectAttributes.addFlashAttribute("message", "Upload a file");
@@ -171,12 +171,16 @@ public class RestAPIController {
 	        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		mapper.writerWithDefaultPrettyPrinter().writeValue(output,data);
 		Connection conn = new Connection();
-		Session session = conn.getSession();
+		client = conn.getClient();
+      
+      		IMap<String, String> mapMasters = client.getMap(tableName);
+	      // PUT the data into the map
+
                 for(int index=0; index < data.size(); index++)
 		{
 			String jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data.get(index));
 			System.out.println("Value = " + jsonStr);
-			session.execute("INSERT INTO test."+ tableName +" JSON " + "'"+ jsonStr + "'");	
+			mapMasters.put("1000", jsonStr);
 		}
 
 		 redirectAttributes.addFlashAttribute("message","successfully uploaded..");
@@ -186,7 +190,11 @@ public class RestAPIController {
 	{
 		e.printStackTrace();
 	}
+	finally
+	{
+		client.shutdown();
+	}
 	return("SUCCESS");
     }
-    */
+    
 }

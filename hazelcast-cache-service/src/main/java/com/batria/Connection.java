@@ -14,7 +14,7 @@ public class Connection
 {
 	private static Logger logger = LogManager.getLogger("Connection");
 	public static HazelcastInstance client;
-	private String serverIp = "127.0.0.1:5701";
+	private String serverIp = "127.0.0.1:5702";
 	public Connection()
 	{
 
@@ -30,7 +30,7 @@ public class Connection
 			try{
 
 			ClientConfig clientConfig = new ClientConfig();
-			clientConfig.getGroupConfig().setName("HzCluster").setPassword("HzCluster");
+			clientConfig.getGroupConfig().setName("HzCluster1").setPassword("HzCluster1+");
 			clientConfig.getNetworkConfig().addAddress(serverIp).setRedoOperation(true);
 
 		        client = HazelcastClient.newHazelcastClient(clientConfig);

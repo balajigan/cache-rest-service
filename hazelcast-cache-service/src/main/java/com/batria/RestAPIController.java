@@ -140,7 +140,7 @@ public class RestAPIController {
 	 return (returnStatus);
     }
 
-/*    
+   
     
     @RequestMapping( method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "hazelcast/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
@@ -197,5 +197,5 @@ public class RestAPIController {
 	}
 	return("SUCCESS");
     }
-  */  
+   
 }

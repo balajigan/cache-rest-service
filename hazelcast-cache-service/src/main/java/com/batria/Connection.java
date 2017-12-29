@@ -14,7 +14,7 @@ public class Connection
 {
 	private static Logger logger = LogManager.getLogger("Connection");
 	public static HazelcastInstance client;
-	private String serverIp = "127.0.0.1:5702";
+	private String serverIp = "10.128.0.4:5702";
 	public Connection()
 	{
 

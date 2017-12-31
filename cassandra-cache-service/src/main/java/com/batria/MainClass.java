@@ -14,6 +14,8 @@ import org.apache.log4j.PatternLayout;
 */
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import com.datastax.driver.core.Session;
+import com.batria.Connection;
 
 @SpringBootApplication
 public class MainClass 
@@ -44,6 +46,11 @@ public class MainClass
 	logger.info("@@@@@@@@@@@@@@@@@  Application Started @@@@@@@@@@@@@@@@@@@");
 */
 //    public static void main(String[] args) {
+//
+        String serverIp = "10.128.0.4";
+	Connection conn = new Connection(serverIp);
+	Session session = conn.getSession();
+
         ApplicationContext ctx = SpringApplication.run(MainClass.class, args);
 
         System.out.println("Let's inspect the beans provided by Spring Boot:");

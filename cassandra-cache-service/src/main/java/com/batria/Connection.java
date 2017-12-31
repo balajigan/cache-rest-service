@@ -14,7 +14,7 @@ public class Connection
 	private static Logger logger = LogManager.getLogger("Connection");
 	public static Cluster cluster;
 	public static Session session;
-	private String serverIp = "127.0.0.1";
+	private String serverIp = "10.128.0.4";
 	public Connection()
 	{
 

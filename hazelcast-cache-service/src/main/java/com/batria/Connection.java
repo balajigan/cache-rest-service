@@ -1,4 +1,9 @@
 
+/* Class for creating connection with Hazelcast.
+ * Hazelcast creates default (based on the available CPU cores) connection pool and keep them warm.
+ * Don't shut down the client. Opening the new connections will take sometime.
+ */
+
 package com.batria;
 
 import org.apache.logging.log4j.Logger;

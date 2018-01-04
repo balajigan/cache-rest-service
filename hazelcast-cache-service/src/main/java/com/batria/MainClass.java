@@ -1,3 +1,9 @@
+
+/* Starting point for the application
+ *  *
+ *   */
+
+
 package com.batria;
 
 import java.util.Arrays;
@@ -8,6 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.core.HazelcastInstance;
+
 @SpringBootApplication
 public class MainClass 
 {
@@ -15,10 +24,16 @@ public class MainClass
 
     public static void main(String[] args)
     {
-	logger.info("Hazelcast APT MainClass started "); 
-        ApplicationContext ctx = SpringApplication.run(MainClass.class, args);
+	logger.info("Hazelcast APT MainClass started ");
 
-        //System.out.println("Let's inspect the beans provided by Spring Boot:");
+	// Configure the IP and port, before starting this.
+        String serverIp = "10.128.0.4:5701";
+
+	// Create the client, before start accepting the requests.
+        Connection conn = new Connection(serverIp);
+	HazelcastInstance client = conn.getClient();
+
+        ApplicationContext ctx = SpringApplication.run(MainClass.class, args);
 
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);

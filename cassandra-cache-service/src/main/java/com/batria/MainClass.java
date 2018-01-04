@@ -1,3 +1,8 @@
+
+/* Starting point for the application
+ *
+ */
+
 package com.batria;
 
 import java.util.Arrays;

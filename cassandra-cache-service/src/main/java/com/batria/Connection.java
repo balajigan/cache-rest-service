@@ -1,4 +1,8 @@
 
+/* Class for creating connection with DSE or Cassandra.
+ * Default 128 connection pool is used.
+ * Don't shut down the cluster. Opening the new connections will take sometime.
+ */
 package com.batria;
 
 import com.datastax.driver.core.Cluster;

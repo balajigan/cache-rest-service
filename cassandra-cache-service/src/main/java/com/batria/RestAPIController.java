@@ -47,6 +47,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
+import java.io.InputStream;
+import java.io.FileInputStream;
+
+
 
 @RestController
 public class RestAPIController {
@@ -174,5 +180,28 @@ public class RestAPIController {
 		returnStatus = "FAILURE";
 	}
 	return(returnStatus);
+    }
+
+    @RequestMapping(value = "/download/{file_name}", method = RequestMethod.GET)
+    public void getFile( @RequestParam(value="file_name", defaultValue="1") String fileName, HttpServletResponse response) 
+    {
+	try {
+
+		//fileName = "/root/Help/results/result_dse_jm_150user_50K_loop2.jtl";
+		fileName = "/root/Help/results/result_Hz_jm_150user_50K_loop2.jtl";
+		File fileToDownload = new File(fileName);
+		InputStream is = new FileInputStream(fileToDownload);
+		response.setContentType("application/text");
+		//response.setContentType("application/force-download");
+		// get your file as InputStream
+		//InputStream is = ;
+		// copy it to response's OutputStream
+		IOUtils.copy(is, response.getOutputStream());
+		response.flushBuffer();
+	    } catch (IOException ex) {
+		    ex.printStackTrace();
+	        throw new RuntimeException("IOError writing file to output stream");
+	    }
+				   
     }
 }

@@ -87,6 +87,7 @@ public class RestAPIController {
 	 catch(Exception ex)
 	 {
 		logger.error("Exception in getData method");
+		throw new RuntimeException("Error in reading data from DSE");
 	 }
 	 
 	 long endTimeMs = System.currentTimeMillis();
@@ -115,6 +116,7 @@ public class RestAPIController {
 	  {
 		  returnStatus = "FAILURE";
 		  logger.error("Exception in inserting data");
+		  throw new RuntimeException("Error writing date to DSE");
 	  }
          long endTimeMs = System.currentTimeMillis();
 	 //System.out.println("putData exec time = "+ Long.toString(endTimeMs - startTimeMs));

@@ -189,8 +189,8 @@ public class RestAPIController {
     {
 	try {
 
-		//fileName = "/root/Help/results/result_dse_jm_150user_50K_loop2.jtl";
-		fileName = "/root/Help/results/result_Hz_jm_150user_50K_loop2.jtl";
+		// fileName = "/root/Help/results/result_Hz_jm_150user_50K_loop2.jtl";
+		fileName = "/root/Help/results/"+fileName;
 		File fileToDownload = new File(fileName);
 		InputStream is = new FileInputStream(fileToDownload);
 		response.setContentType("application/text");

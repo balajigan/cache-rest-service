@@ -206,4 +206,28 @@ public class RestAPIController {
 	    }
 				   
     }
+
+       // Pass the orderId, for getting the order details.    
+    @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/dse/search")
+    public Object search(@RequestParam(value="query", defaultValue="*.*") String query)
+    {
+            String jsonString = null;
+	    System.out.println("Received Query: " + query);
+            try{
+                      Connection conn = new Connection(serverIp);
+                      Session session = conn.getSession();
+                      //ResultSet resultSet = session.execute("SELECT JSON * FROM test.logs WHERE logid="+ "'"+"1000"+"'");
+                      ResultSet resultSet = session.execute("SELECT JSON * FROM test.logs WHERE solr_query="+"'"+query+"'");
+		      Row row = resultSet.one();
+                      jsonString = row.getString(0);
+               }
+               catch(Exception ex)
+              {
+                    logger.error("Exception in getData method");   
+		    throw new RuntimeException("Error in reading data from DSE");
+              }
+           System.out.println("Output =" + jsonString); 	      
+	 return(jsonString);     
+    }
+   
 }

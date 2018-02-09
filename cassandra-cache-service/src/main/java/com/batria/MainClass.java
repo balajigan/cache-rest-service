@@ -24,7 +24,7 @@ public class MainClass
     {
 	logger.info("Main started");
         // Change the serverIp based on the actuls	
-        String serverIp = "127.0.0.1";
+        String serverIp = "10.128.0.2";
 
 	// Create the connection pool.
 	Connection conn = new Connection(serverIp);

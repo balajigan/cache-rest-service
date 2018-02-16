@@ -1,4 +1,4 @@
-package com.test;
+package com.batria;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

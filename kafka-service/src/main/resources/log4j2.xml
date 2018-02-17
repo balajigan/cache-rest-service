@@ -22,7 +22,7 @@
        </RollingFile>       
     </Appenders>
     <Loggers>
-	    <Logger name="com.batria.MainClass" level="info" additivity="false">
+	    <Logger name="com.test.MainClass" level="info" additivity="false">
 <!--		    		    
 	    <AppenderRef ref="ConsoleAppender" />
 -->

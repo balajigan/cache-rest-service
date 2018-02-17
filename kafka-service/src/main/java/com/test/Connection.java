@@ -23,6 +23,7 @@ public class Connection
 	{
 		this.serverIp = serverIp;
 	}
+/*
 	public Session getSession()
 	{
 		if(session == null)
@@ -42,5 +43,5 @@ public class Connection
 		}
 		return session;
 	}
-
+*/
 }

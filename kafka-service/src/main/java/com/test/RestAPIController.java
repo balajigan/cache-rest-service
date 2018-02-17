@@ -61,6 +61,11 @@ public class RestAPIController {
     // Configure this IP before starting the API.
     private static String serverIp = "10.128.0.3";
 
+    @RequestMapping( method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/kafka/topic/create")
+    public Object createTopic(@RequestParam(value="topic", defaultValue="test-topic") String topic)
+    {
+	return("SUCCESS");
+    }
 /*    
  * This method accepts order data in JSON format and writes into database.
  * If the write fails, it will return FAILURE. Else, SUCCESS will be returned.

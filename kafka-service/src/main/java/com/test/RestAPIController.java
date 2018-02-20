@@ -75,9 +75,11 @@ public class RestAPIController {
     {
           long startTimeMs = System.currentTimeMillis(); 
           String returnStatus = "SUCCESS";
-
+          Connection conn = new Connection();
 	  try
 	  {
+	  conn.produceMessage(conn.getProducer(),"test-topic", "key1",inputData);
+	  returnStatus = "SUCCESS111";
 	  }
 	  catch (Exception ex)
 	  {

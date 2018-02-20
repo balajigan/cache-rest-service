@@ -39,8 +39,8 @@ public class Connection
 			props.put("batch.size", 16384);
 			props.put("linger.ms", 0);
 			props.put("buffer.memory", 33554432);
-			props.put("key.serializer", "org.apache.kafka.common.serializa-tion.StringSerializer");
-			props.put("value.serializer", "org.apache.kafka.common.serializa-tion.StringSerializer");
+			props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+			props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 			
 			try{
 				producer = new KafkaProducer<String, String>(props);
@@ -49,6 +49,7 @@ public class Connection
 			catch(Exception ex)
 			{
 				logger.error("Issues in opening connection with Cassandra");
+				ex.printStackTrace();
 			}
 		}
 		return producer;
